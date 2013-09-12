@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+<head>
+  <title>WebGL performances</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1274, user-scalable=no">
+  <link rel="stylesheet" href="themes/mozilla/styles/style.css">
+  <style type="text/css">
+
+  </style>
+</head>
+
+<body class="list">
+
+  <header class="caption">
+    <h1>WebGL performances</h1>
+    <p class="footer">Nicolas Silva, <a href="http://twitter.com/">@nicalsilva</a> or <a href="mailto:">nical@mozilla.com</a></p>
+  </header>
+
+  <div id="cover" class="slide"><div>
+    <section>
+      <header>
+        <h2>Hi there,</h2>
+      </header>
+
+      <figure class="middle">
+      <img src="pictures/firefox.png" 
+           alt="Red panda (Firefox)">
+      </figure>
+
+      <small class="byline">
+        Nicolas Silva, Mozilla, onGameStart, 2013
+      </small>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div id="webgl" class="slide"><div>
+    <section>
+      <header>
+        <h2>WebGL</h2>
+      </header>
+
+      <ul>
+        <li>Foo</li>
+        <li>Bar</li>
+      </ul> 
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="underthehood" class="slide"><div>
+    <section>
+      <header>
+        <h2>Under the hood</h2>
+      </header>
+
+      <ul>
+        <li>On mobile: OpenGL ES2</li>
+        <li>On Mac and Linux: "desktop" OpenGL</li>
+        <li>On Windows: ANGLE → Direct3D</li>
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="contentprocess" class="slide"><div>
+    <section>
+      <header>
+        <h2>The content process</h2>
+      </header>
+
+      <ul>
+        <li>WebGL runs in the same thread as layout and JS</li>
+        <li>It can be slowed down by the rest even if independent</li>
+        <li>WebGL workers \o/</li>
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="secu" class="slide"><div>
+    <section>
+      <header>
+        <h2>Security</h2>
+      </header>
+
+      <ul>
+        <li>WebGL exposes the user's hardware to web developers.</li>
+        <li>Security is very important on the web</li>
+        <li>The browser needs to perform additional checks
+          <ul>
+            <li> Such as...
+            <li> and...
+          </ul>
+        </li>
+        <li>Browsers continue to improve
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+
+
+  <div id="bandwidth" class="slide"><div>
+    <section>
+      <header>
+        <h2> WebGL API </h2>
+      </header>
+      <ul>
+        <li>The bottleneck is often the communication with the GPU</li>
+        <li>Keep the amount of draw calls low!</li>
+        <li>More generally, keep the amount of API calls low</li>
+        <ul>
+          <li> Cache getter calls such as getParameter() and getUniformLocation()
+        </ul>
+      </ul> 
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="shaders" class="slide"><div>
+    <section>
+      <header>
+        <h2> Sharders </h2>
+      </header>
+      <ul>
+        <li>Higly parallel execution</li>
+        <li>We can render worlds in two triangles!</li>
+      </ul> 
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="branch" class="slide"><div>
+    <section>
+      <header>
+        <h2> Branching </h2>
+      </header>
+
+      <pre>
+            <code><b>if</b> (foo < 0.5) {</code>
+            <code>  // do A...</code>
+            <code>} <b>else</b> {</code>
+            <code>  // do B...</code>
+            <code>}</code>
+      </pre>
+
+      <ul>
+        <li>Branching is slow!</li>
+        <li>If neighbooring fragments don't follow the same path, often costs like computing both A and B</li>
+      </ul>
+
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="texcache" class="slide"><div>
+    <section>
+      <header>
+        <h2> Sampling textures </h2>
+      </header>
+      <ul>
+        <li>Reading from a texture in a deterministic way is OK</li>
+        <li>Cache misses are very expensive</li>
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="compilation" class="slide"><div>
+    <section>
+      <header>
+        <h2> Beware shader compile time</h2>
+      </header>
+      <ul>
+        <li>Shader compilation is synchronous
+        <li>Very heavy shaders can block the browser for several seconds depending on the quality of the drivers</li>
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="other1" class="slide"><div>
+    <section>
+      <header>
+        <h2> Various tips </h2>
+      </header>
+      <ul>
+        <li>Avoid high precision floats (mobile hardware don't support it well)</li>
+        <li>Always have vertex attrib 0 array enabled.</li>
+        <ul>
+          <li> Otherwise it forces the browser to do complicated emulation when running on desktop OpenGL.
+        </ul>
+      </ul>
+      <footer class="notes">
+        source: http://www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="other1" class="slide"><div>
+    <section>
+      <header>
+        <h2> Slightly off topic, but... </h2>
+      </header>
+      <ul>
+        <li>Publishing on the web, we need to care about network / loading times</li>
+        <ul>
+          <li>Asset streaming</li>
+          <li>More client-side procedural content?</li>
+        </ul>
+      </ul>
+      <footer class="notes">
+        source: http://www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="thanks" class="slide"><div>
+    <section>
+      <header>
+        <h2>Thanks</h2>
+      </header>
+        <figure class="frame middle swing">
+        <img src="pictures/todo.jpg" 
+             alt="TODO, funny picture here">
+        </figure>
+      <ul class="oneline demourl">
+        <li>Nicolas Silva</li>
+        <li>nical@mozilla.com</li>
+        <li><a href="http://twitter.com/">@nicalsilva</a></li>
+        <li><a href="nical.github.com/onGameStart2013">
+          http://nical.github.com/onGameStart2013
+        </a></li>
+      </ul>
+      <small class="credits">
+        <a href="TODO url of the original...">
+          Photo by YYY
+        </a>
+      </small>
+    <footer class="notes">
+    </footer>
+    </section>
+  </div></div>
+
+  <div class="progress"><div></div></div>
+  <script src="scripts/script.js"></script>
+  <!-- Copyright © 2010–2012 Vadim Makeev — pepelsbey.net -->
+</body>
+</html>
