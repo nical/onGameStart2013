@@ -44,7 +44,7 @@
       <img src="pictures/webgl-logo.png">
       <ul>
         <li>3D rendering on the web</li>
-        <li>Very low level API (compared to other web APIs)</li>
+        <li>Very low level (compared to other web APIs)</li>
         <li>Very dependent on the hardware and the drivers</li>
       </ul> 
       <footer class="notes">
@@ -163,7 +163,7 @@
         <li>Process Vertices and Fragments  
         <li>We can render worlds in two triangles!
         <ul>
-          <li>For example: <a href="nical.github.com/GLSL-Raymarching/blob/master/demo/webgl/raymarcher.html">ray marching in a fragment shader</a>
+          <li>For example: <a href="http://nical.github.com/GLSL-Raymarching/demo/webgl/raymarcher.html">ray marching in a fragment shader</a>
           <li>Or all the cool demos at <a href="www.shadertoy.com">shadertoy.com</a>!
         </ul>
       </ul> 
@@ -221,6 +221,7 @@
       <ul>
         <li>Shader compilation is synchronous
         <li>Very heavy shaders can block the browser for several seconds on some drivers</li>
+        <li>Example: <a href="http://www.shadertoy.com">shadertoy.com</a>
       </ul>
       <footer class="notes">
       </footer>
@@ -236,7 +237,7 @@
         <li>Avoid high precision floats (mobile hardware don't support it well)</li>
         <li>Always have vertex attrib 0 array enabled.</li>
         <ul>
-          <li> Otherwise it forces the browser to do complicated emulation when running on desktop OpenGL.
+          <li>Otherwise it forces the browser to do complicated emulation when running on desktop OpenGL.
         </ul>
       </ul>
       <footer class="notes">
