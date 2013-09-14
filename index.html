@@ -39,12 +39,13 @@
   <div id="webgl" class="slide"><div>
     <section>
       <header>
-        <h2>WebGL</h2>
+        <h1>WebGL</h1>
       </header>
-
+      <img src="pictures/webgl-logo.png">
       <ul>
-        <li>Foo</li>
-        <li>Bar</li>
+        <li>3D rendering on the web</li>
+        <li>Very low level API (compared to other web APIs)</li>
+        <li>Very dependent on the hardware and the drivers</li>
       </ul> 
       <footer class="notes">
       </footer>
@@ -73,7 +74,7 @@
         <h2>The content process</h2>
       </header>
 
-      <ul>
+      <ul class="incremental">
         <li>WebGL runs in the same thread as layout and JS</li>
         <li>It can be slowed down by the rest even if independent</li>
         <li>WebGL workers \o/</li>
@@ -92,7 +93,7 @@
       <ul>
         <li>WebGL exposes the user's hardware to web developers.</li>
         <li>Security is very important on the web</li>
-        <li>The browser needs to perform additional checks
+        <li>Browsers needs to perform additional checks
           <ul>
             <li> Such as...
             <li> and...
@@ -106,20 +107,47 @@
   </div></div>
 
 
-
-  <div id="bandwidth" class="slide"><div>
+  <div id="sync" class="slide"><div>
     <section>
       <header>
-        <h2> WebGL API </h2>
+        <h2> Synchronization </h2>
+      </header>
+      <img src="pictures/sync.png">
+      <ul>
+        <li>WebGL tried to pipeline things asynchronously
+        <li>A point of synchronization can block the JS thread for a long time
+        <li>For instance: gl.getError(), gl.readPixels(), gl.finish()
+      </ul> 
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="transfers" class="slide"><div>
+    <section>
+      <header>
+        <h2> Bandwidth </h2>
+      </header>
+      <img src="pictures/bandwidth.png" class="center">
+      <ul>
+        <li>Sending things over to the GPU is often slow
+          <ul><li>Texture uploads, vertex buffers, ect. </ul>
+        <li>Cache getter calls such as gl.getParameter() and gl.getUniformLocation()
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="drawcalls" class="slide"><div>
+    <section>
+      <header>
+        <h2> Batch drawing commands </h2>
       </header>
       <ul>
-        <li>The bottleneck is often the communication with the GPU</li>
-        <li>Keep the amount of draw calls low!</li>
-        <li>More generally, keep the amount of API calls low</li>
-        <ul>
-          <li> Cache getter calls such as getParameter() and getUniformLocation()
-        </ul>
-      </ul> 
+        <li>State changes are expensive (texture bindings, shaders, etc.)
+        <li>Pack all the geometry that share the same states together in the same drawing commands.
+      </ul>
       <footer class="notes">
       </footer>
     </section>
@@ -131,8 +159,13 @@
         <h2> Sharders </h2>
       </header>
       <ul>
-        <li>Higly parallel execution</li>
-        <li>We can render worlds in two triangles!</li>
+        <li>Highly parallel execution</li>
+        <li>Process Vertices and Fragments  
+        <li>We can render worlds in two triangles!
+        <ul>
+          <li>For example: <a href="nical.github.com/GLSL-Raymarching/blob/master/demo/webgl/raymarcher.html">ray marching in a fragment shader</a>
+          <li>Or all the cool demos at <a href="www.shadertoy.com">shadertoy.com</a>!
+        </ul>
       </ul> 
       <footer class="notes">
       </footer>
@@ -144,7 +177,7 @@
       <header>
         <h2> Branching </h2>
       </header>
-
+      <img src="pictures/branching.png" class="right">
       <pre>
             <code><b>if</b> (foo < 0.5) {</code>
             <code>  // do A...</code>
@@ -155,7 +188,8 @@
 
       <ul>
         <li>Branching is slow!</li>
-        <li>If neighbooring fragments don't follow the same path, often costs like computing both A and B</li>
+        <li>Often the cost off computing both A and B</li>
+        <li>Coherency can improve performances</li>
       </ul>
 
       <footer class="notes">
@@ -166,10 +200,12 @@
   <div id="texcache" class="slide"><div>
     <section>
       <header>
-        <h2> Sampling textures </h2>
+        <h2> Sampling from textures </h2>
       </header>
+      <img src="pictures/cache.png">
       <ul>
-        <li>Reading from a texture in a deterministic way is OK</li>
+        <li>GPUs are optimized for the case where neighboring pixels will sample neiboring texels.
+        <li>For the texture cache, proximity is considered in 2D</li>
         <li>Cache misses are very expensive</li>
       </ul>
       <footer class="notes">
@@ -180,11 +216,11 @@
   <div id="compilation" class="slide"><div>
     <section>
       <header>
-        <h2> Beware shader compile time</h2>
+        <h2> Warning: shader compile times!</h2>
       </header>
       <ul>
         <li>Shader compilation is synchronous
-        <li>Very heavy shaders can block the browser for several seconds depending on the quality of the drivers</li>
+        <li>Very heavy shaders can block the browser for several seconds on some drivers</li>
       </ul>
       <footer class="notes">
       </footer>
@@ -209,7 +245,7 @@
     </section>
   </div></div>
 
-  <div id="other1" class="slide"><div>
+  <div id="other2" class="slide"><div>
     <section>
       <header>
         <h2> Slightly off topic, but... </h2>
@@ -222,7 +258,6 @@
         </ul>
       </ul>
       <footer class="notes">
-        source: http://www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences
       </footer>
     </section>
   </div></div>
