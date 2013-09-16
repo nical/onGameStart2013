@@ -24,8 +24,7 @@
       </header>
 
       <figure class="middle">
-      <img src="pictures/firefox.png" 
-           alt="Red panda (Firefox)">
+          <img src="pictures/webgl-logo.png">
       </figure>
 
       <small class="byline">
@@ -59,9 +58,12 @@
       </header>
 
       <ul>
-        <li>On mobile: OpenGL ES2</li>
-        <li>On Mac and Linux: "desktop" OpenGL</li>
-        <li>On Windows: ANGLE → Direct3D</li>
+        <li>Both Firefox and Chrome use
+        <ul>
+          <li>On mobile: OpenGL ES2</li>
+          <li>On Mac and Linux: "desktop" OpenGL</li>
+          <li>On Windows: ANGLE → Direct3D</li>
+        </ul>
       </ul>
       <footer class="notes">
       </footer>
@@ -75,9 +77,9 @@
       </header>
 
       <ul class="incremental">
-        <li>WebGL runs in the same thread as layout and JS</li>
-        <li>It can be slowed down by the rest even if independent</li>
-        <li>WebGL workers \o/</li>
+        <li>The JS that calls into WebGL runs in the same thread as layout and most of the web content
+        <li>Means other things can affect the framerate
+        <li>WebGL workers \o/
       </ul>
       <footer class="notes">
       </footer>
@@ -95,11 +97,10 @@
         <li>Security is very important on the web</li>
         <li>Browsers needs to perform additional checks
           <ul>
-            <li> Such as...
-            <li> and...
+            <li> Exemple: gl.drawElements() checks that all referenced vertices are within vertex buffer storage.
+            <li> In shaders, it must be possible to unroll very loop
           </ul>
         </li>
-        <li>Browsers continue to improve
       </ul>
       <footer class="notes">
       </footer>
@@ -114,7 +115,7 @@
       </header>
       <img src="pictures/sync.png">
       <ul>
-        <li>WebGL tried to pipeline things asynchronously
+        <li>WebGL tries to pipeline commands as much as possible
         <li>A point of synchronization can block the JS thread for a long time
         <li>For instance: gl.getError(), gl.readPixels(), gl.finish()
       </ul> 
@@ -132,7 +133,8 @@
       <ul>
         <li>Sending things over to the GPU is often slow
           <ul><li>Texture uploads, vertex buffers, ect. </ul>
-        <li>Cache getter calls such as gl.getParameter() and gl.getUniformLocation()
+        <li>Cache getter calls like gl.getParameter(), gl.getUniformLocation()
+        <li>Bad: gl.uniform1f(gl.getUniformLocation(program, "time"), time);
       </ul>
       <footer class="notes">
       </footer>
@@ -145,8 +147,11 @@
         <h2> Batch drawing commands </h2>
       </header>
       <ul>
+        <li>This is generally the most important optimization!
         <li>State changes are expensive (texture bindings, shaders, etc.)
         <li>Pack all the geometry that share the same states together in the same drawing commands.
+        <li>Pack several textures into one, and select the appropritae region with texture coordinates.
+        <li> batch, batch, batch!
       </ul>
       <footer class="notes">
       </footer>
@@ -172,6 +177,17 @@
     </section>
   </div></div>
 
+  <div id="raymarching" class="slide"><div>
+    <section>
+      <header>
+        <h2> Two trinagles </h2>
+      </header>
+      <img src="pictures/marching.png">
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
   <div id="branch" class="slide"><div>
     <section>
       <header>
@@ -187,9 +203,9 @@
       </pre>
 
       <ul>
-        <li>Branching is slow!</li>
-        <li>Often the cost off computing both A and B</li>
-        <li>Coherency can improve performances</li>
+        <li>Branching is slow!
+        <li>Often the cost off computing both A and B
+        <li>Coherency usually improves performances
       </ul>
 
       <footer class="notes">
@@ -202,12 +218,24 @@
       <header>
         <h2> Sampling from textures </h2>
       </header>
-      <img src="pictures/cache.png">
+      <img src="pictures/cache2.png">
       <ul>
-        <li>GPUs are optimized for the case where neighboring pixels will sample neiboring texels.
-        <li>For the texture cache, proximity is considered in 2D</li>
-        <li>Cache misses are very expensive</li>
+        <li>For the texture cache, proximity is considered in 2D
+        <li>Cache misses are expensive
       </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="mipmaps" class="slide"><div>
+    <section>
+      <header>
+        <h2> Mipmapping </h2>
+      </header>
+      <figure class="middle">
+        <img src="pictures/mipmaps.png">
+      </figure>
       <footer class="notes">
       </footer>
     </section>
@@ -220,7 +248,7 @@
       </header>
       <ul>
         <li>Shader compilation is synchronous
-        <li>Very heavy shaders can block the browser for several seconds on some drivers</li>
+        <li>Very heavy shaders can block the browser for several seconds on some drivers
         <li>Example: <a href="http://www.shadertoy.com">shadertoy.com</a>
       </ul>
       <footer class="notes">
@@ -252,9 +280,9 @@
         <h2> Slightly off topic, but... </h2>
       </header>
       <ul>
-        <li>Publishing on the web, we need to care about network / loading times</li>
+        <li>Publishing on the web, we need to care about network / loading times. Modern games often contain several gigabytes of Assets...</li>
         <ul>
-          <li>Asset streaming</li>
+          <li>Asset LOD streaming</li>
           <li>More client-side procedural content?</li>
         </ul>
       </ul>
@@ -262,6 +290,40 @@
       </footer>
     </section>
   </div></div>
+
+  <div id="measurements" class="slide"><div>
+    <section>
+      <header>
+        <h2> Understand what the bottlenecks are </h2>
+      </header>
+      <ul>
+        <li>Is it JS code?
+        <li>Data transfer?
+        <li>Vertex processing?
+        <li>Fragment processing?
+        <li>Profile your code!
+        <li>Test and measure on all the platforms you target
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="profiling" class="slide"><div>
+    <section>
+      <header>
+        <h2> Beware when profiling </h2>
+      </header>
+      <img src="pictures/sync.png">
+      <ul>
+        <li>Due to pipelining, calls that show up in profiles are not always the ones that actually take time.
+        <li>Use gl.finish() (but not in prduction!)
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
 
   <div id="thanks" class="slide"><div>
     <section>
