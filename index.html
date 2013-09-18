@@ -44,7 +44,6 @@
       <ul>
         <li>3D rendering on the web</li>
         <li>Very low level (compared to other web APIs)</li>
-        <li>Very dependent on the hardware and the drivers</li>
       </ul> 
       <footer class="notes">
       </footer>
@@ -62,8 +61,9 @@
         <ul>
           <li>On mobile: OpenGL ES2</li>
           <li>On Mac and Linux: "desktop" OpenGL</li>
-          <li>On Windows: ANGLE → Direct3D</li>
+          <li>On Windows: OpenGL ES2 (through ANGLE → Direct3D)</li>
         </ul>
+        <li> ANGLE also provides with the shader compiler on all platforms.
       </ul>
       <footer class="notes">
       </footer>
@@ -78,7 +78,7 @@
 
       <ul class="incremental">
         <li>The JS that calls into WebGL runs in the same thread as layout and most of the web content
-        <li>Means other things can affect the framerate
+        <li>Means other things can block your game's thread
         <li>WebGL workers \o/
       </ul>
       <footer class="notes">
@@ -93,16 +93,17 @@
       </header>
 
       <ul>
-        <li>WebGL exposes the user's hardware to web developers.</li>
-        <li>Security is very important on the web</li>
+        <li>OpenGL specifications have behaviors left undefined to achieve the best performances</li>
+        <li>On the web we cannot allow undefined behaviors because they often expose security vulnerabilities</li>
         <li>Browsers needs to perform additional checks
           <ul>
             <li> Exemple: gl.drawElements() checks that all referenced vertices are within vertex buffer storage.
-            <li> In shaders, it must be possible to unroll very loop
+            <li> All newly allocated resources are cleared to zero to prevent access to unitialized data.
           </ul>
         </li>
       </ul>
       <footer class="notes">
+        http://www.khronos.org/webgl/security/
       </footer>
     </section>
   </div></div>
@@ -131,10 +132,10 @@
       </header>
       <img src="pictures/bandwidth.png" class="center">
       <ul>
-        <li>Sending things over to the GPU is often slow
+        <li>Data transfer betwwen CPU and GPU is slow
           <ul><li>Texture uploads, vertex buffers, ect. </ul>
         <li>Cache getter calls like gl.getParameter(), gl.getUniformLocation()
-        <li>Bad: gl.uniform1f(gl.getUniformLocation(program, "time"), time);
+        <li>Avoid gl.uniform1f(gl.getUniformLocation(program, "time"), time);
       </ul>
       <footer class="notes">
       </footer>
@@ -161,7 +162,7 @@
   <div id="shaders" class="slide"><div>
     <section>
       <header>
-        <h2> Sharders </h2>
+        <h2> Shaders </h2>
       </header>
       <ul>
         <li>Highly parallel execution</li>
@@ -204,8 +205,8 @@
 
       <ul>
         <li>Branching is slow!
-        <li>Often the cost off computing both A and B
-        <li>Coherency usually improves performances
+        <li>Often the cost of computing both A and B
+        <li>Coherency usually improves performance
       </ul>
 
       <footer class="notes">
@@ -262,7 +263,7 @@
         <h2> Various tips </h2>
       </header>
       <ul>
-        <li>Avoid high precision floats (mobile hardware don't support it well)</li>
+        <li>Avoid high precision floats in fragment shaders (mobile hardware don't support it)</li>
         <li>Always have vertex attrib 0 array enabled.</li>
         <ul>
           <li>Otherwise it forces the browser to do complicated emulation when running on desktop OpenGL.
@@ -270,23 +271,6 @@
       </ul>
       <footer class="notes">
         source: http://www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences
-      </footer>
-    </section>
-  </div></div>
-
-  <div id="other2" class="slide"><div>
-    <section>
-      <header>
-        <h2> Slightly off topic, but... </h2>
-      </header>
-      <ul>
-        <li>Publishing on the web, we need to care about network / loading times. Modern games often contain several gigabytes of Assets...</li>
-        <ul>
-          <li>Asset LOD streaming</li>
-          <li>More client-side procedural content?</li>
-        </ul>
-      </ul>
-      <footer class="notes">
       </footer>
     </section>
   </div></div>
@@ -324,16 +308,54 @@
     </section>
   </div></div>
 
+  <div id="silverbullet" class="slide"><div>
+    <section>
+      <header>
+        <h2> The GPU is not a silver bullet </h2>
+      </header>
+      <ul>
+        <li>The GPU is good at doing some specific opertations
+        <li>It is NOT good at everything
+        <ul>
+           <li> Rendering text
+           <li> Vector shapes in general (bezier curves)
+        </ul>
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
+
+  <div id="other2" class="slide"><div>
+    <section>
+      <header>
+        <h2> Slightly off topic, but... </h2>
+      </header>
+      <ul>
+        <li>Publishing on the web, we need to care about network / loading times. Modern games often contain several gigabytes of Assets...</li>
+        <ul>
+          <li>Asset LOD streaming</li>
+          <li>More client-side procedural content?</li>
+        </ul>
+      </ul>
+      <footer class="notes">
+      </footer>
+    </section>
+  </div></div>
 
   <div id="thanks" class="slide"><div>
     <section>
       <header>
         <h2>Thanks</h2>
       </header>
-        <figure class="frame middle swing">
-        <img src="pictures/todo.jpg" 
-             alt="TODO, funny picture here">
-        </figure>
+        Useful resources:
+        <ul>
+          <li> http://www.khronos.org/webgl/security/
+          <li> http://www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences/
+          <li> https://hacks.mozilla.org/2013/04/the-concepts-of-webgl/
+
+        </ul>
+
       <ul class="oneline demourl">
         <li>Nicolas Silva</li>
         <li>nical@mozilla.com</li>
@@ -342,11 +364,6 @@
           http://nical.github.com/onGameStart2013
         </a></li>
       </ul>
-      <small class="credits">
-        <a href="TODO url of the original...">
-          Photo by YYY
-        </a>
-      </small>
     <footer class="notes">
     </footer>
     </section>
