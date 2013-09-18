@@ -42,10 +42,11 @@
       </header>
       <img src="pictures/webgl-logo.png">
       <ul>
-        <li>3D rendering on the web</li>
+        <li>In short: 3D rendering on the web</li>
         <li>Very low level (compared to other web APIs)</li>
       </ul> 
       <footer class="notes">
+        WebGL is "low level" in the sense that it exposes functionalities that map directly to how GPUs work today.
       </footer>
     </section>
   </div></div>
@@ -63,7 +64,7 @@
           <li>On Mac and Linux: "desktop" OpenGL</li>
           <li>On Windows: OpenGL ES2 (through ANGLE → Direct3D)</li>
         </ul>
-        <li> ANGLE also provides with the shader compiler on all platforms.
+        <li> ANGLE also provides with shader translation/validation on all platforms.
       </ul>
       <footer class="notes">
       </footer>
@@ -94,7 +95,7 @@
 
       <ul>
         <li>OpenGL specifications have behaviors left undefined to achieve the best performance</li>
-        <li>On the web we cannot allow undefined behaviors because they often expose security vulnerabilities</li>
+        <li>On the web we cannot allow undefined behaviors because they generally expose security vulnerabilities</li>
         <li>Browsers needs to perform additional checks
           <ul>
             <li> Exemple: gl.drawElements() checks that all referenced vertices are within vertex buffer storage.
@@ -107,7 +108,6 @@
       </footer>
     </section>
   </div></div>
-
 
   <div id="sync" class="slide"><div>
     <section>
@@ -319,6 +319,7 @@
         <ul>
            <li> Rendering text
            <li> Vector shapes in general (bezier curves)
+           <li> processing that is sequencial by nature
         </ul>
       </ul>
       <footer class="notes">
@@ -350,10 +351,13 @@
       </header>
         Useful resources:
         <ul>
-          <li> http://www.khronos.org/webgl/security/
-          <li> http://www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences/
-          <li> https://hacks.mozilla.org/2013/04/the-concepts-of-webgl/
-
+          <li> <a href="http://www.khronos.org/registry/webgl/specs/1.0/">
+            www.khronos.org/registry/webgl/specs/1.0 <a>
+          <li> <a href="http://www.khronos.org/webgl/security/">
+            www.khronos.org/webgl/security/ <a>
+          <li> <a href="https://hacks.mozilla.org/2013/04/the-concepts-of-webgl/"> hacks.mozilla.org/2013/04/the-concepts-of-webgl <a>
+          <li> <a href="http://www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences/">
+            www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences <a>
         </ul>
 
       <ul class="oneline demourl">
